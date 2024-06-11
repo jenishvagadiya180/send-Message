@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+
 import { validationResult } from "express-validator";
 import moment from "moment";
 

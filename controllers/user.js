@@ -8,7 +8,7 @@ const saltRounds = 10;
 class user {
     static addUser = async (req, res) => {
         try {
-            console.log("inside addUser")
+            console.log("inside addUser")          
             if (services.hasValidatorErrors(req, res)) {
                 return;
             }
@@ -33,7 +33,6 @@ class user {
             console.log('error :>> ', error);
         }
     }  
-
 }
 
 export default user;
