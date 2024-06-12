@@ -1,9 +1,10 @@
 
 import { validationResult } from "express-validator";
-import moment from "moment";
+import notificationModel from "../models/notification.js";
 
 
 class services {
+    //for Give the Response for incoming Request
     static response = (code, message, data) => {
         if (data == null) {
             return {
@@ -20,10 +21,12 @@ class services {
         }
     }
 
+    //For set the Response
     static setResponse = async (res, statusCode, message, data) => {
         await res.send(this.response(statusCode, message, data));
     }
 
+    //For check Validation Errors
     static hasValidatorErrors = (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -35,34 +38,20 @@ class services {
         }
     }
 
-    static userTokenGenerate = async (emailPasswordObj, expireTime) => {
-        const token = await jwt.sign(emailPasswordObj, process.env.SECURITY_KEY, { expiresIn: expireTime });
-        return token;
-    }
-
-    static jwtVerify(token) {
+    //For create notification in notification collection
+    static sendNotification = async (users) => {
         try {
-            const verifyUser = jwt.verify(token, process.env.SECURITY_KEY);
+            console.log('users :>> ', users);
+            const messages = users.map((user) => {
+                return { message: "Hello Good Morning " + user.name, sentTo: user._id }
+            })
 
-            if (moment().unix() > verifyUser.exp) {
-                return true;
-            }
-            return false
+            const message = await notificationModel.insertMany(messages);
+            console.log('message :>> ', message);
         }
         catch (error) {
-            return true
+            console.log('Error is coming inside sendNotification :>> ', error.message);
         }
-    }
-
-    static responseData(status, message, data, totalRecord) {
-        let responseData = {
-            status: status,
-            message: message,
-            data: data,
-            "recordsTotal": totalRecord,
-            "recordsFiltered": totalRecord,
-        };
-        return responseData;
     }
 
 }

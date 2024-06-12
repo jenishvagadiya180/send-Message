@@ -6,9 +6,11 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 class user {
+
+    // Registration api
     static addUser = async (req, res) => {
         try {
-            console.log("inside addUser")          
+            console.log("inside addUser")
             if (services.hasValidatorErrors(req, res)) {
                 return;
             }
@@ -32,7 +34,7 @@ class user {
         } catch (error) {
             console.log('error :>> ', error);
         }
-    }  
+    }
 }
 
 export default user;
