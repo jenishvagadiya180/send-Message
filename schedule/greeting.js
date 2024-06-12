@@ -34,6 +34,7 @@ const scheduleNotification = async (req, res) => {
         console.log('userData :>> ', userData);
 
         userData.forEach(user => {
+            console.log('user.timeZone :>> ', user.timeZone);
             const getJobInfo = new CronJob(`00 09 * * *`, async () => {
                 try {
                     console.log(`Sending messages!!!`);
@@ -45,7 +46,7 @@ const scheduleNotification = async (req, res) => {
             },
                 null,
                 true,
-                user.timezone,
+                user.timeZone,
             );
         });
 
